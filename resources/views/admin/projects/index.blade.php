@@ -2,8 +2,8 @@
 
 @section('content')
 <div class="container">
-    <h1>Projects</h1>
-    <a href="{{ route('projects.create') }}" class="btn btn-primary">Create Project</a>
+    <h1>Tutti i Post</h1>
+    <a href="{{ route('admin.projects.create') }}" class="btn btn-primary">Create Project</a>
     <table class="table">
         <thead>
             <tr>
@@ -18,9 +18,9 @@
                     <td>{{ $project->name }}</td>
                     <td>{{ $project->description }}</td>
                     <td>
-                        <a href="{{ route('projects.show', $project->id) }}" class="btn btn-info">View</a>
-                        <a href="{{ route('projects.edit', $project->id) }}" class="btn btn-warning">Edit</a>
-                        <form action="{{ route('projects.destroy', $project->id) }}" method="POST" style="display:inline;">
+                        <a href="{{ route('admin.projects.show', $project->id) }}" class="btn btn-info">View</a>
+                        <a href="{{ route('admin.projects.edit', $project->id) }}" class="btn btn-warning">Edit</a>
+                        <form action="{{ route('admin.projects.destroy', $project->id) }}" method="POST" style="display:inline-block;">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="btn btn-danger">Delete</button>
@@ -32,3 +32,4 @@
     </table>
 </div>
 @endsection
+

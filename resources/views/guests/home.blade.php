@@ -3,9 +3,13 @@
 @section('content')
 <div class="container">
     <h1>Guest Home</h1>
-    <p>Benvenuto nel sito normale.</p>
+    <p>Benvenuto nel sito.</p>
     @auth
-        <a href="{{ route('admin.projects.create') }}" class="btn btn-primary">Create Post</a>
+        <!-- Bottone visibile solo per l'amministratore -->
+        @if (Auth::user()->is_admin)
+            <a href="{{ route('admin.home') }}" class="btn btn-primary">Vai alla Admin Dashboard</a>
+        @endif
+        <a href="{{ route('admin.projects.create') }}" class="btn btn-primary">Crea Post</a>
     @endauth
     <div class="row">
         @foreach ($projects as $project)
@@ -16,6 +20,15 @@
                         <p class="card-text">{{ $project->description }}</p>
                         @if ($project->type)
                             <p><strong>Type:</strong> {{ $project->type->name }}</p>
+                        @endif
+                        @if ($project->technologies->count() > 0)
+                            <p><strong>Technologies:</strong>
+                                <ul>
+                                    @foreach ($project->technologies as $technology)
+                                        <li>{{ $technology->name }}</li>
+                                    @endforeach
+                                </ul>
+                            </p>
                         @endif
                     </div>
                 </div>

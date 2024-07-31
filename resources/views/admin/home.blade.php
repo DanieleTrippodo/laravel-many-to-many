@@ -3,7 +3,9 @@
 @section('content')
 <div class="container">
     <h1>Admin Dashboard</h1>
-    <p>Benvenuto nella schermata di back-office.</p>
-    <a href="{{ route('admin.projects.create') }}" class="btn btn-primary">Create Post</a>
+    <p>Benvenuto nella admin dashboard.</p>
+
+    <!-- Bottone per gestire i progetti -->
+    <a href="{{ route('admin.projects.index') }}" class="btn btn-primary">Modifica Post</a>
 </div>
 @endsection

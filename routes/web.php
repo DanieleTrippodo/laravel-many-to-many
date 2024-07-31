@@ -1,6 +1,5 @@
 <?php
 
-
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\ProjectController;
 use Illuminate\Support\Facades\Auth;
@@ -23,4 +22,3 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('projects', ProjectController::class);
     });
 });
-

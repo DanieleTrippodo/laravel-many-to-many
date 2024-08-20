@@ -3,34 +3,48 @@
 @section('content')
 <div class="container">
     <h1>Create Project</h1>
-    <form action="{{ route('admin.projects.store') }}" method="POST">
+    <form action="{{ route('admin.projects.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
-        <div class="mb-3">
-            <label for="name" class="form-label">Project Name</label>
-            <input type="text" class="form-control" id="name" name="name" value="{{ old('name') }}">
+
+        <div class="form-group">
+            <label for="name">Project Name:</label>
+            <input type="text" class="form-control" name="name" id="name" value="{{ old('name') }}" required>
         </div>
-        <div class="mb-3">
-            <label for="description" class="form-label">Description</label>
-            <textarea class="form-control" id="description" name="description">{{ old('description') }}</textarea>
+
+        <div class="form-group">
+            <label for="description">Description:</label>
+            <textarea class="form-control" name="description" id="description" required>{{ old('description') }}</textarea>
         </div>
-        <div class="mb-3">
-            <label for="type_id" class="form-label">Type</label>
-            <select class="form-control" id="type_id" name="type_id">
+
+        <div class="form-group">
+            <label for="type_id">Project Type:</label>
+            <select class="form-control" name="type_id" id="type_id">
                 <option value="">Select Type</option>
                 @foreach ($types as $type)
-                    <option value="{{ $type->id }}">{{ $type->name }}</option>
+                    <option value="{{ $type->id }}" {{ old('type_id') == $type->id ? 'selected' : '' }}>
+                        {{ $type->name }}
+                    </option>
                 @endforeach
             </select>
         </div>
-        <div class="mb-3">
-            <label for="technologies" class="form-label">Technologies</label>
-            <select multiple class="form-control" id="technologies" name="technologies[]">
+
+        <div class="form-group">
+            <label for="technologies">Technologies:</label>
+            <select class="form-control" name="technologies[]" id="technologies" multiple>
                 @foreach ($technologies as $technology)
-                    <option value="{{ $technology->id }}">{{ $technology->name }}</option>
+                    <option value="{{ $technology->id }}" {{ collect(old('technologies'))->contains($technology->id) ? 'selected' : '' }}>
+                        {{ $technology->name }}
+                    </option>
                 @endforeach
             </select>
         </div>
-        <button type="submit" class="btn btn-primary">Create</button>
+
+        <div class="form-group">
+            <label for="image_file">Upload Image:</label>
+            <input type="file" class="form-control" name="image_file" id="image_file">
+        </div>
+
+        <button type="submit" class="btn btn-primary">Create Project</button>
     </form>
 </div>
 @endsection

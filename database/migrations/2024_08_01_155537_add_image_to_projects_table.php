@@ -9,7 +9,7 @@ class AddImageToProjectsTable extends Migration
     public function up()
     {
         Schema::table('projects', function (Blueprint $table) {
-            $table->string('image')->nullable()->after('description'); // Colonna per il percorso dell'immagine
+            $table->string('image')->nullable()->after('description'); // Colonna per l'immagine
         });
     }
 

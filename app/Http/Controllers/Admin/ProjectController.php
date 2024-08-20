@@ -33,7 +33,6 @@ class ProjectController extends Controller
             'type_id' => 'nullable|exists:types,id',
             'technologies' => 'array|exists:technologies,id',
             'image_file' => 'nullable|image|max:2048',
-            'image_url' => 'nullable|url',
         ]);
 
         $project = Project::create([
@@ -43,13 +42,10 @@ class ProjectController extends Controller
             'type_id' => $request->type_id,
         ]);
 
-        // Gestisci il caricamento dell'immagine dal file
+        // Gestione dell'immagine caricata dal file
         if ($request->hasFile('image_file')) {
             $path = $request->file('image_file')->store('projects', 'public');
             $project->image = $path;
-        } elseif ($request->filled('image_url')) {
-            // Gestisci il caricamento dell'immagine dall'URL
-            $project->image = $request->image_url;
         }
 
         $project->technologies()->sync($request->technologies);
@@ -78,7 +74,6 @@ class ProjectController extends Controller
             'type_id' => 'nullable|exists:types,id',
             'technologies' => 'array|exists:technologies,id',
             'image_file' => 'nullable|image|max:2048',
-            'image_url' => 'nullable|url',
         ]);
 
         $project->update([
@@ -87,19 +82,13 @@ class ProjectController extends Controller
             'type_id' => $request->type_id,
         ]);
 
-        // Gestisci il caricamento dell'immagine dal file
+        // Gestione dell'immagine caricata dal file
         if ($request->hasFile('image_file')) {
-            if ($project->image && !filter_var($project->image, FILTER_VALIDATE_URL)) {
+            if ($project->image) {
                 Storage::delete('public/' . $project->image);
             }
             $path = $request->file('image_file')->store('projects', 'public');
             $project->image = $path;
-        } elseif ($request->filled('image_url')) {
-            // Gestisci il caricamento dell'immagine dall'URL
-            if ($project->image && !filter_var($project->image, FILTER_VALIDATE_URL)) {
-                Storage::delete('public/' . $project->image);
-            }
-            $project->image = $request->image_url;
         }
 
         $project->technologies()->sync($request->technologies);
@@ -110,7 +99,7 @@ class ProjectController extends Controller
 
     public function destroy(Project $project)
     {
-        if ($project->image && !filter_var($project->image, FILTER_VALIDATE_URL)) {
+        if ($project->image) {
             Storage::delete('public/' . $project->image);
         }
 

@@ -3,14 +3,22 @@
 @section('content')
 <div class="container">
     <h1>{{ $project->name }}</h1>
+
+    @if($project->image)
+        <img src="{{ asset('storage/' . $project->image) }}"
+             alt="Project Image"
+             style="width: 300px; height: auto;">
+    @else
+        <p>No Image Available</p>
+    @endif
+
     <p>{{ $project->description }}</p>
-    <p><strong>Type:</strong> {{ $project->type ? $project->type->name : 'N/A' }}</p>
-    <p><strong>Technologies:</strong></p>
-    <ul>
-        @foreach ($project->technologies as $technology)
-            <li>{{ $technology->name }}</li>
-        @endforeach
-    </ul>
-    <a href="{{ route('admin.projects.index') }}" class="btn btn-secondary">Back to Projects</a>
+
+    <a href="{{ route('admin.projects.edit', $project->id) }}" class="btn btn-warning">Edit</a>
+    <form action="{{ route('admin.projects.destroy', $project->id) }}" method="POST" style="display:inline-block;">
+        @csrf
+        @method('DELETE')
+        <button type="submit" class="btn btn-danger">Delete</button>
+    </form>
 </div>
 @endsection

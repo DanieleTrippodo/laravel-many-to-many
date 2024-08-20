@@ -2,11 +2,12 @@
 
 @section('content')
 <div class="container">
-    <h1>Tutti i Post</h1>
-    <a href="{{ route('admin.projects.create') }}" class="btn btn-primary">Create Project</a>
+    <h1>Projects List</h1>
+    <a href="{{ route('admin.projects.create') }}" class="btn btn-primary mb-3">Add New Project</a>
     <table class="table">
         <thead>
             <tr>
+                <th>Image</th>
                 <th>Name</th>
                 <th>Description</th>
                 <th>Actions</th>
@@ -15,6 +16,15 @@
         <tbody>
             @foreach ($projects as $project)
                 <tr>
+                    <td>
+                        @if($project->image)
+                            <img src="{{ asset('storage/' . $project->image) }}"
+                                 alt="Project Image"
+                                 style="width: 100px; height: auto;">
+                        @else
+                            <span>No Image</span>
+                        @endif
+                    </td>
                     <td>{{ $project->name }}</td>
                     <td>{{ $project->description }}</td>
                     <td>
@@ -32,4 +42,3 @@
     </table>
 </div>
 @endsection
-
